@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String?
+  email       String   @unique
+  password    String
+  avatarImage String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  generations AiGeneration[]
+}
+
+model AiGeneration {
+  id          String     @id @default(uuid())
+  userId      String
+  prompt      String
+  location    String?
+  imageUrl    String?
+  result      Json?
+  createdAt   DateTime   @default(now())
+
+  user        User       @relation(fields: [userId], references: [id])
+}
+
+model Restaurant {
+  id            String   @id @default(uuid())
+  name          String
+  location      String
+  description   String
+  imageUrl      String?
+  googleMapsUrl String
+
+  createdAt     DateTime @default(now())
+}
+
