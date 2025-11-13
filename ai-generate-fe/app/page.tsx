@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, Brain, Utensils, MapPin } from "lucide-react";
 import Navbar from "./components/Navbar";
 import Link from "next/link";
-import { relative } from "path";
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,43 +41,52 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-900 text-white flex flex-col">
       {/* Navbar */}
-      <Navbar />
+      <Navbar scrolled={scrolled} />
 
       {/* Hero */}
-      <main id="hero" className="flex flex-col items-center justify-center text-center flex-1 px-6 py-32 md:py-55 overflow-hidden">
-        <div className="h-[300px] md:h-[400px] flex flex-col justify-center">
-          <motion.h2
-            layout="position"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight will-change-transform"
-          >
-            Temukan <span className="text-orange-400">Restoran Terbaik</span>
-            <br /> dengan Bantuan AI
-          </motion.h2>
+      <main id="hero" className="relative flex flex-col md:flex-row w-full h-screen overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundColor: "rgb(15 23 42)",
+            opacity: 0.95,
+          }}
+        ></div>
+        <div
+          className="absolute inset-0 block"
+          style={{
+            clipPath: "polygon(70% 0, 100% 0, 100% 100%, 30% 100%)",
+            backgroundImage: "url('/home.avif')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-slate-900/80"></div>
+        </div>
 
-          <motion.p
-            layout="position"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-slate-300 max-w-3xl mb-8 will-change-transform"
-          >
-            Cukup tulis keinginanmu, unggah gambar makanan, atau masukkan lokasi —<span className="text-orange-400 font-semibold">TasteAI</span> akan menemukan restoran yang cocok dengan seleramu.
-          </motion.p>
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full h-full text-center px-6 md:px-20">
+          <div className="max-w-4xl text-white">
+            <motion.h2
+              layout="position"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight"
+            >
+              Temukan <span className="text-orange-400">Restoran Terbaik</span>
+              <br /> dengan Bantuan AI
+            </motion.h2>
 
-          <motion.div
-            layout="position"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.9, duration: 0.6 }}
-            className="w-46 mx-auto will-change-transform"
-          >
-            <Link href="/login" className="bg-orange-500 hover:bg-orange-600 transition px-6 py-3 rounded-full font-semibold flex items-center gap-2 cursor-pointer">
-              Coba Sekarang <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+            <motion.p layout="position" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8 }} className="text-slate-300 max-w-3xl mx-auto mb-8">
+              Cukup tulis keinginanmu, unggah gambar makanan, atau masukkan lokasi — <span className="text-orange-400 font-semibold">TasteAI</span> akan menemukan restoran yang cocok dengan seleramu.
+            </motion.p>
+
+            <motion.div layout="position" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.9, duration: 0.6 }} className="mx-auto">
+              <Link href="/login" className="w-46 bg-orange-500 hover:bg-orange-600 transition px-6 py-3 rounded-full font-semibold flex items-center gap-2 cursor-pointer justify-center mx-auto">
+                Coba Sekarang <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </main>
 
@@ -105,13 +113,13 @@ export default function HomePage() {
         </p>
       </section>
 
-      <section id="mulai" className="bg-orange-600 py-16 text-center text-white">
+      {/* <section id="mulai" className="bg-orange-600 py-16 text-center text-white">
         <h3 className="text-3xl font-bold mb-4">Siap Menemukan Rasa Favoritmu?</h3>
         <p className="mb-8 text-white/90">Mulai sekarang dan biarkan AI memahami selera kulinermu!</p>
         <Link href="/register">
           <button className="bg-white text-orange-600 hover:bg-slate-100 transition px-6 py-3 rounded-full font-semibold cursor-pointer">Daftar Sekarang</button>
         </Link>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="py-6 text-center text-slate-400 text-sm border-t border-slate-800">Copyright © {new Date().getFullYear()} TasteAI · All rights reserved.</footer>

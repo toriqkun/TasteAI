@@ -4,7 +4,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
+interface NavbarProps {
+  scrolled: boolean;
+}
+
+export default function Navbar({ scrolled }: NavbarProps) {
   const [open, setOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
@@ -29,7 +33,11 @@ export default function Navbar() {
   return (
     <>
       {/* Header (selalu kelihatan) */}
-      <header className="fixed top-0 left-0 w-full bg-slate-900/90 backdrop-blur-md flex items-center justify-between px-6 md:px-10 py-3 shadow z-50">
+      <header
+        className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-10 py-3 z-50 transition-all backdrop-blur-md
+    ${scrolled ? "bg-slate-900 shadow-md" : "bg-transparent shadow-none"}
+  `}
+      >
         {/* Logo */}
         <h1 className="text-2xl font-bold text-orange-400 py-1">TasteAI</h1>
 
@@ -87,9 +95,9 @@ export default function Navbar() {
                 <button onClick={() => scrollToSection("tentang")} className="py-4 px-6 text-left text-gray-700 hover:text-orange-400 font-semibold cursor-pointer">
                   About
                 </button>
-                <button onClick={() => scrollToSection("mulai")} className="py-4 px-6 text-left text-gray-700 hover:text-orange-400 font-semibold cursor-pointer">
+                {/* <button onClick={() => scrollToSection("mulai")} className="py-4 px-6 text-left text-gray-700 hover:text-orange-400 font-semibold cursor-pointer">
                   Mulai
-                </button>
+                </button> */}
               </div>
 
               {/* Bottom Buttons */}

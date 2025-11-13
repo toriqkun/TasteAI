@@ -1,5 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+
 }
 
 datasource db {
@@ -13,9 +15,11 @@ model User {
   email       String   @unique
   password    String
   avatarImage String?
+  isVerified  Boolean   @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  tokens      VerificationToken[]
   generations AiGeneration[]
 }
 
@@ -42,3 +46,12 @@ model Restaurant {
   createdAt     DateTime @default(now())
 }
 
+model VerificationToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}

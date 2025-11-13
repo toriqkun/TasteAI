@@ -1,9 +1,11 @@
 "use client";
-import { FileText, Image, MapPin, Sparkles, LogOut, Pencil } from "lucide-react";
+import { FileText, ImageUp, MapPin, Sparkles, LogOut, Pencil } from "lucide-react";
 import useAuth from "../utils/useAuth";
 import { useState } from "react";
 import api from "../utils/axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function DashboardPage() {
   const { user, setUser, loading } = useAuth();
@@ -80,22 +82,24 @@ export default function DashboardPage() {
       {/* Profile*/}
       <div className="absolute top-6 right-6 flex items-center space-x-2 z-20" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
         <div
-          className={`flex gap-2 items-center bg-slate-800/80 backdrop-blur-md rounded-full overflow-hidden transition-all duration-300 ${
-            hovered ? "opacity-100 px-2 py-[5px]" : "w-0 opacity-0 px-0"
+          className={`flex gap-2 items-center bg-slate-800/80 border-2 border-orange-400 backdrop-blur-md rounded-full overflow-hidden transition-all duration-300 ${
+            hovered ? "opacity-100 px-2 py-[2.9px]" : "w-0 opacity-0 px-0"
           }`}
         >
-          <button onClick={handleLogout} className="flex items-center bg-orange-500 hover:bg-orange-600 rounded-full p-2 transition cursor-pointer">
+          <button onClick={handleLogout} className="flex items-center bg-orange-500 hover:bg-orange-600 border border-white rounded-full p-2 transition cursor-pointer">
             <LogOut size={18} className="text-white" />
           </button>
           <span className="text-md truncate px-4">{user?.name || "User"}</span>
         </div>
 
         {/* Avatar */}
-        <img
+        <Image
           src={user?.avatarImage ? `${user.avatarImage}?t=${Date.now()}` : "/default-avatar.png"}
           alt="Avatar"
+          width={44}
+          height={44}
           onClick={handleAvatarClick}
-          className="w-11 h-11 rounded-full object-cover cursor-pointer"
+          className="rounded-full border-2 border-orange-400 object-cover cursor-pointer"
         />
       </div>
 
@@ -103,19 +107,23 @@ export default function DashboardPage() {
       <main className="relative z-10 text-center px-6 md:px-12 py-6 md:py-0 max-w-5xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-extrabold text-orange-400 mb-4">Selamat Datang di TasteAI</h1>
         <p className="text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Temukan inspirasi kuliner unik dan resep personal dari kecerdasan buatan. Biarkan AI kami memahami seleramu dan menciptakan pengalaman rasa terbaik!
+          Temukan tempat kuliner unik di seluruh dunia dari kecerdasan buatan. Biarkan AI kami memahami seleramu dan menciptakan pengalaman rasa terbaik!
         </p>
 
         {/* Feature Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mb-10">
           <FeatureCard icon={<FileText size={28} />} title="Tulis Deskripsi" desc="Ceritakan makanan yang kamu inginkan." />
-          <FeatureCard icon={<Image size={28} />} title="Unggah Gambar" desc="Berikan referensi visual untuk inspirasi rasa." />
-          <FeatureCard icon={<MapPin size={28} />} title="Prioritas Lokasi" desc="Tentukan lokasi atau bahan yang kamu punya." />
-          <FeatureCard icon={<Sparkles size={28} />} title="Dapatkan Hasil" desc="Biarkan AI kami menciptakan ide hidangan terbaik." />
+          <FeatureCard icon={<ImageUp size={28} />} title="Unggah Gambar" desc="Berikan referensi visual untuk inspirasi rasa." />
+          <FeatureCard icon={<MapPin size={28} />} title="Prioritas Lokasi" desc="Tentukan lokasi yang anda inginkan." />
+          <FeatureCard icon={<Sparkles size={28} />} title="Dapatkan Hasil" desc="Biarkan AI kami menemukan tempat kuliner terbaik." />
         </div>
 
         {/* CTA Button */}
-        <button className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-semibold shadow-lg transition cursor-pointer">Mulai Sekarang</button>
+        <div className="flex gap-5 justify-center">
+          <Link href="/generate" className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-bold shadow-lg transition cursor-pointer">
+            Mulai Sekarang
+          </Link>
+        </div>
       </main>
 
       {/* Modal Edit Profile */}
@@ -126,7 +134,7 @@ export default function DashboardPage() {
 
             {/* Avatar preview */}
             <div className="relative w-28 h-28 mx-auto mb-4">
-              <img src={preview || "/default-avatar.png"} alt="Preview" className="w-28 h-28 rounded-full object-cover border-2 border-orange-400" />
+              <Image src={preview || "/default-avatar.png"} alt="Preview" fill className="rounded-full object-cover border-2 border-orange-400" />
               <label htmlFor="avatarUpload" className="absolute bottom-1 right-1 bg-orange-500 hover:bg-orange-600 rounded-full p-2 cursor-pointer">
                 <Pencil size={16} />
               </label>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User, CircleCheckBig } from "lucide-react";
 import api from "../utils/axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -17,17 +17,16 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitError, setSubmitError] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const router = useRouter()
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setForm((prev) => ({ ...prev, [name]: value }));
     setSubmitError((prev) => ({ ...prev, [name]: "" }));
     setTouched((prev) => ({ ...prev, [name]: true }));
 
     const newErrors = { ...errors };
-
     switch (name) {
       case "name":
         if (value && value.length < 4) newErrors.name = "Nama minimal 4 karakter";
@@ -59,8 +58,7 @@ export default function RegisterPage() {
 
     try {
       const res = await api.post("/auth/register", form);
-      toast.success(res.data.message || "Registrasi berhasil!");
-      router.push("/login")
+      setShowModal(true);
       setErrors({});
       setSubmitError({});
     } catch (err: any) {
@@ -71,6 +69,11 @@ export default function RegisterPage() {
         toast.error(msg || "Gagal mendaftar");
       }
     }
+  };
+
+  const handleModalOk = () => {
+    setShowModal(false);
+    router.push("/login");
   };
 
   const getBorderClass = (field: string) => {
@@ -166,6 +169,22 @@ export default function RegisterPage() {
           </Link>
         </p>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-slate-800 p-6 rounded-xl shadow-lg w-120 text-center border border-slate-700">
+            <CircleCheckBig
+              className="text-green-600 text-center mx-auto mb-2 
+             w-23 h-23 sm:w-28 sm:h-28"
+            />
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">Success!</h2>
+            <p className="text-gray-100 text-lg mb-4">Periksa email Anda untuk mengonfirmasi akun Anda.</p>
+            <button onClick={handleModalOk} className="mt-2 py-2 px-8 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold cursor-pointer">
+              OKE
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
