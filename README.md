@@ -6,7 +6,9 @@ TasteAI is an AI-powered culinary recommendation app that helps users discover f
 
 ## 📸 UI Preview
 
-*(Tambahkan screenshot aplikasi Anda di sini)*
+<div align="center">
+  <img src="AiGenerate.png" width="800">
+</div>
 
 ---
 
